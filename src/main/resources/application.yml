@@ -1,0 +1,40 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+security:
+  basic:
+    enable: false
+    ignored: /**
+
+ticketing_system:
+  url: ${TICKETING_SYSTEM_URL}
+
+asap:
+  audience: ${ASAP_INCOMING_AUDIENCE}
+  public-key-repo: ${ASAP_PUBLIC_KEY_REPO}
+  issuers-mapping:
+    'system1': bot1
+    'system2': bot2
+    'system3': bot3
+    'system4': bot4
+  issuer-whitelisted-urls:
+    'system1':
+      'GET':
+      'POST':
+      'DELETE':
+      'PUT':
+  proxy:
+    issuer: ${ASAP_ISSUER}
+    audience: ${ASAP_OUTGOING_AUDIENCE}
+    private-key-id: ${PRIVATE_KEY_ID}
+    private-key-path: ${PRIVATE_KEY_REPO}
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: FULL
+
+logging.level.com.mishyn.proxy.client.TicketClient: DEBUG
