@@ -19,12 +19,6 @@ asap:
     'system2': bot2
     'system3': bot3
     'system4': bot4
-  issuer-whitelisted-urls:
-    'system1':
-      'GET':
-      'POST':
-      'DELETE':
-      'PUT':
   proxy:
     issuer: ${ASAP_ISSUER}
     audience: ${ASAP_OUTGOING_AUDIENCE}
