@@ -1,4 +1,4 @@
-package com.mishyn.proxy.security;
+package com.mishyn.proxy.client;
 
 import lombok.Getter;
 import lombok.Setter;

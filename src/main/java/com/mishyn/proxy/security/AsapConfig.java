@@ -7,6 +7,7 @@ import com.atlassian.asap.core.validator.JwtClaimsValidator;
 import com.atlassian.asap.core.validator.JwtValidator;
 import com.atlassian.asap.core.validator.JwtValidatorImpl;
 import com.atlassian.asap.nimbus.parser.NimbusJwtParser;
+import com.mishyn.proxy.client.IssuersMapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

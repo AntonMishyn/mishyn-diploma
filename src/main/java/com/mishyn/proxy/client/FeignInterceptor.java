@@ -8,7 +8,6 @@ import com.atlassian.asap.api.exception.CannotRetrieveKeyException;
 import com.atlassian.asap.api.exception.InvalidTokenException;
 import com.atlassian.asap.core.client.http.AuthorizationHeaderGeneratorImpl;
 import com.atlassian.asap.core.parser.JwtParser;
-import com.mishyn.proxy.security.IssuersMapping;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +24,7 @@ import java.util.Optional;
 public class FeignInterceptor implements RequestInterceptor {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_SCHEMA = "Bearer ";
 
     @Value("${asap.proxy.issuer}")
     private String issuer;
@@ -53,7 +53,7 @@ public class FeignInterceptor implements RequestInterceptor {
         Jwt jwt = JwtBuilder.newFromPrototype(jwtPrototype).build();
 
         try {
-            requestTemplate.header("Authorization", authorizationHeaderGenerator.generateAuthorizationHeader(jwt));
+            requestTemplate.header(AUTHORIZATION_HEADER, authorizationHeaderGenerator.generateAuthorizationHeader(jwt));
         } catch (InvalidTokenException e) {
             throw new RuntimeException("Invalid prototype token", e);
         } catch (CannotRetrieveKeyException e) {
@@ -65,8 +65,8 @@ public class FeignInterceptor implements RequestInterceptor {
         try {
             Jwt validJwt = jwtParser.parse(
                     ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                            .getRequest().getHeader("Authorization")
-                            .substring("Bearer ".length())
+                            .getRequest().getHeader(AUTHORIZATION_HEADER)
+                            .substring(AUTHORIZATION_SCHEMA.length())
             );
             return issuersMapping.getIssuersMapping().get(validJwt.getClaims().getIssuer());
         } catch (NullPointerException | InvalidTokenException e) {
